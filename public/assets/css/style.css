@@ -5295,6 +5295,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     flex: 1 1 auto;
     padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
     color: var(--bs-card-color);
+   
   }
 
   .card-title {
@@ -33317,6 +33318,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
   .card-body {
     padding: 1.25rem;
+     height: 20%;
   }
 
   @media only screen and (max-width: 35.9375rem) {
