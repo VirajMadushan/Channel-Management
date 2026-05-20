@@ -65,9 +65,9 @@
                                         <i class="fa fa-exclamation-triangle mt-1"></i>
                                         <div><strong>Keep these keys secret.</strong> Never share API keys publicly. Rotate them immediately if compromised.</div>
                                     </div>
-                                    <div class="card mb-3" style="background:rgba(255,255,255,.04);">
-                                        <div class="card-body">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="card mb-3" style="background:rgba(255,255,255,.04); ">
+                                        <div class="card-body" style="height:auto!important;">
+                                            <div class="d-flex justify-content-between align-items-center mb-3" ">
                                                 <div class="d-flex align-items-center gap-2">
                                                     <span class="badge badge-primary fs-13 px-3">BK</span>
                                                     <span class="fw-bold">Booking.com</span>
@@ -269,7 +269,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="card mb-4 border-0" style="background:var(--primary);">
-                                        <div class="card-body d-flex justify-content-between align-items-center">
+                                        <div class="card-body d-flex justify-content-between align-items-center" style="height:auto!important;">
                                             <div>
                                                 <h5 class="text-white mb-1">Pro Plan</h5>
                                                 <p class="text-white mb-0 fs-13">Up to 10 properties · Unlimited OTA channels · Priority support</p>
