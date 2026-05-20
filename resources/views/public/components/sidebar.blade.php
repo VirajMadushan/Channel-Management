@@ -179,9 +179,5 @@
             </li>
 
         </ul>
-
-        <div class="copyright">
-            <p>Hotel Admin &copy; {{ date('Y') }} All Rights Reserved</p>
-        </div>
     </div>
 </div>
