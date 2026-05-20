@@ -265,7 +265,7 @@
                         </div>
                     </div>
 
-                    <div class="card">
+                    {{-- <div class="card">
                         <div class="card-header border-0 pb-0">
                             <h4 class="card-title">Quick Actions</h4>
                         </div>
@@ -279,7 +279,7 @@
                             <a href="reports.html" class="btn btn-outline-secondary w-100"><i
                                     class="fa fa-bar-chart me-2"></i>View Reports</a>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
