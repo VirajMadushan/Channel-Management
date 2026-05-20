@@ -6,22 +6,38 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('resavations', function (Blueprint $table) {
+        Schema::create('reservations', function (Blueprint $table) {
             $table->id();
+            $table->string('booking_id')->unique();
+            $table->foreignId('property_id')->constrained()->onDelete('cascade');
+            $table->foreignId('room_id')->constrained()->onDelete('cascade');
+            $table->foreignId('channel_id')->nullable()->constrained()->onDelete('set null');
+            $table->string('guest_name');
+            $table->string('guest_email')->nullable();
+            $table->string('guest_phone')->nullable();
+            $table->string('guest_country')->nullable();
+            $table->date('check_in');
+            $table->date('check_out');
+            $table->integer('nights');
+            $table->integer('adults')->default(1);
+            $table->integer('children')->default(0);
+            $table->decimal('room_rate', 10, 2);
+            $table->decimal('total_amount', 10, 2);
+            $table->decimal('commission_amount', 10, 2)->default(0);
+            $table->decimal('net_amount', 10, 2);
+            $table->string('currency', 3)->default('USD');
+            $table->enum('status', ['pending','confirmed','checked_in','checked_out','cancelled','no_show'])
+                  ->default('pending');
+            $table->text('special_requests')->nullable();
+            $table->string('ota_booking_id')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('resavations');
+        Schema::dropIfExists('reservations');
     }
 };

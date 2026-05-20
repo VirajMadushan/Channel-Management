@@ -6,22 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('rates_tale', function (Blueprint $table) {
+        Schema::create('rates', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('room_id')->constrained()->onDelete('cascade');
+            $table->foreignId('channel_id')->nullable()->constrained()->onDelete('cascade');
+            $table->date('date');
+            $table->decimal('rate', 10, 2);
+            $table->integer('available_rooms')->default(1);
+            $table->boolean('is_closed')->default(false);
+            $table->integer('min_stay')->default(1);
             $table->timestamps();
+
+            $table->unique(['room_id', 'channel_id', 'date']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('rates_tale');
+        Schema::dropIfExists('rates');
     }
 };
