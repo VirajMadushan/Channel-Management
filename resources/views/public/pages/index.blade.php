@@ -72,7 +72,7 @@
                                 <div>
                                     <p class="mb-1 fs-13">Total Revenue</p>
                                     <h3 class="mb-0 font-w700">$84,320</h3>
-                                    <small class="text-success"><i class="fa fa-arrow-up me-1"></i>8% this month</small>
+                                    <small class="text-success"><i class="fa fa-arrow-up me-1"></i> 8% this month</small>
                                 </div>
                             </div>
                         </div>
@@ -265,7 +265,7 @@
                         </div>
                     </div>
 
-                    {{-- <div class="card">
+                    <div class="card">
                         <div class="card-header border-0 pb-0">
                             <h4 class="card-title">Quick Actions</h4>
                         </div>
@@ -279,7 +279,7 @@
                             <a href="reports.html" class="btn btn-outline-secondary w-100"><i
                                     class="fa fa-bar-chart me-2"></i>View Reports</a>
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
 
