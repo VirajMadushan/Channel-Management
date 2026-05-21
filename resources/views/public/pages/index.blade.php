@@ -109,7 +109,7 @@
                     <div class="card">
                         <div class="card-header border-0 pb-0">
                             <h4 class="card-title">Recent Reservations</h4>
-                            <a href="reservations.html" class="btn btn-primary btn-sm rounded-pill">View All</a>
+                            <a href="{{ route('reservations') }}" class="btn btn-primary btn-sm rounded-pill">View All</a>
                         </div>
                         <div class="card-body pt-2">
                             <div class="table-responsive">
@@ -198,7 +198,7 @@
                     <div class="card">
                         <div class="card-header border-0 pb-0">
                             <h4 class="card-title">Channel Status</h4>
-                            <a href="channels.html" class="btn btn-outline-primary btn-sm rounded-pill">Manage</a>
+                           <a href="{{ route('channels')}} class ="btn btn-outline-primary btn-sm rounded-pill">Manage</a>
                         </div>
                         <div class="card-body pt-2">
                             <ul class="list-group list-group-flush">
