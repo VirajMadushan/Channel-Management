@@ -272,13 +272,13 @@
                             <h4 class="card-title">Quick Actions</h4>
                         </div>
                         <div class="card-body pt-2">
-                            <a href="add-property.html" class="btn btn-primary w-100 mb-2"><i
+                            <a href="{{route('add_property')}}" class="btn btn-primary w-100 mb-2"><i
                                     class="fa fa-plus me-2"></i>Add Property</a>
-                            <a href="connect-channel.html" class="btn btn-outline-primary w-100 mb-2"><i
+                            <a href="{{route('connect_channel')}}" class="btn btn-outline-primary w-100 mb-2"><i
                                     class="fa fa-plug me-2"></i>Connect Channel</a>
-                            <a href="rates.html" class="btn btn-outline-secondary w-100 mb-2"><i
+                            <a href="{{route('rates')}}" class="btn btn-outline-secondary w-100 mb-2"><i
                                     class="fa fa-calendar me-2"></i>Update Rates</a>
-                            <a href="reports.html" class="btn btn-outline-secondary w-100"><i
+                            <a href="{{route('reports')}}" class="btn btn-outline-secondary w-100"><i
                                     class="fa fa-bar-chart me-2"></i>View Reports</a>
                         </div>
                     </div>
