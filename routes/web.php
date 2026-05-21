@@ -66,8 +66,6 @@ Route::middleware('auth')->group(function () {
 // BOOKING.COM API ROUTES
 // These are called by Booking.com — NO auth middleware
 // ─────────────────────────────────────────────────────────
-use App\Http\Controllers\BookingComController;
-
 Route::prefix('api/booking')->group(function () {
 
     // Booking.com sends new reservations to this URL
