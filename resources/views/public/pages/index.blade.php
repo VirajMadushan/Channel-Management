@@ -198,7 +198,8 @@
                     <div class="card">
                         <div class="card-header border-0 pb-0">
                             <h4 class="card-title">Channel Status</h4>
-                           <a href="{{ route('channels')}} class ="btn btn-outline-primary btn-sm rounded-pill">Manage</a>
+                           <a href="{{ route('channels') }}" class="btn btn-outline-primary btn-sm rounded-pill">Manage</a>
+
                         </div>
                         <div class="card-body pt-2">
                             <ul class="list-group list-group-flush">
