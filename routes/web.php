@@ -3,7 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\BookingComController;
 // ─────────────────────────────────────────────────────────
 // AUTH ROUTES (no login required)
 // ─────────────────────────────────────────────────────────
@@ -61,4 +61,34 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings',             [HomeController::class, 'settings'])->name('settings');
     Route::post('/settings',            [HomeController::class, 'update_settings'])->name('settings.update');
 
+});
+// ─────────────────────────────────────────────────────────
+// BOOKING.COM API ROUTES
+// These are called by Booking.com — NO auth middleware
+// ─────────────────────────────────────────────────────────
+use App\Http\Controllers\BookingComController;
+
+Route::prefix('api/booking')->group(function () {
+
+    // Booking.com sends new reservations to this URL
+    // Give this URL to Booking.com: http://yourdomain.com/api/booking/webhook
+    Route::post('/webhook', [BookingComController::class, 'webhook'])
+        ->name('booking.webhook');
+
+    // Below routes require admin login
+    Route::middleware('auth')->group(function () {
+
+        // Manually pull reservations from Booking.com
+        Route::get('/reservations/pull', [BookingComController::class, 'pullReservations'])
+            ->name('booking.pull');
+
+        // Push your rates to Booking.com
+        Route::post('/push-rates', [BookingComController::class, 'pushRates'])
+            ->name('booking.push.rates');
+
+        // Push room availability to Booking.com
+        Route::post('/push-availability', [BookingComController::class, 'pushAvailability'])
+            ->name('booking.push.availability');
+
+    });
 });
