@@ -9,7 +9,6 @@ use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-
 class BookingComController extends Controller
 {
     private string $baseUrl;

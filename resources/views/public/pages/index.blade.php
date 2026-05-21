@@ -4,9 +4,9 @@
         <div class="container-fluid">
 
             <!-- ══════════════════════════════════════
-                         ROW 1 — STAT CARDS
-                         Shows key numbers at a glance
-                    ══════════════════════════════════════ -->
+                             ROW 1 — STAT CARDS
+                             Shows key numbers at a glance
+                        ══════════════════════════════════════ -->
             <div class="row">
                 <div class="col-xl-3 col-sm-6">
                     <div class="card">
@@ -102,8 +102,8 @@
             </div>
 
             <!-- ══════════════════════════════════════
-                         ROW 2 — RECENT RESERVATIONS + CHANNEL STATUS
-                    ══════════════════════════════════════ -->
+                             ROW 2 — RECENT RESERVATIONS + CHANNEL STATUS
+                        ══════════════════════════════════════ -->
             <div class="row">
                 <div class="col-xl-8">
                     <div class="card">
@@ -199,7 +199,7 @@
                         <div class="card-header border-0 pb-0">
                             <h4 class="card-title">Channel Status</h4>
                             <a href="{{ route('channels') }}" class="btn btn-primary btn-sm rounded-pill">Manage</a>
-                          
+
 
                         </div>
                         <div class="card-body pt-2">
@@ -267,27 +267,13 @@
                         </div>
                     </div>
 
-                    <div class="card">
-                        <div class="card-header border-0 pb-0">
-                            <h4 class="card-title">Quick Actions</h4>
-                        </div>
-                        <div class="card-body pt-2">
-                            <a href="{{route('add_property')}}" class="btn btn-primary w-100 mb-2"><i
-                                    class="fa fa-plus me-2"></i>Add Property</a>
-                            <a href="{{route('connect_channel')}}" class="btn btn-outline-primary w-100 mb-2"><i
-                                    class="fa fa-plug me-2"></i>Connect Channel</a>
-                            <a href="{{route('rates')}}" class="btn btn-outline-secondary w-100 mb-2"><i
-                                    class="fa fa-calendar me-2"></i>Update Rates</a>
-                            <a href="{{route('reports')}}" class="btn btn-outline-secondary w-100"><i
-                                    class="fa fa-bar-chart me-2"></i>View Reports</a>
-                        </div>
-                    </div>
+
                 </div>
             </div>
 
             <!-- ══════════════════════════════════════
-                         ROW 3 — TODAY'S CHECK-INS & CHECK-OUTS
-                    ══════════════════════════════════════ -->
+                             ROW 3 — TODAY'S CHECK-INS & CHECK-OUTS
+                        ══════════════════════════════════════ -->
             <div class="row">
                 <div class="col-xl-6">
                     <div class="card">
@@ -393,8 +379,26 @@
                                 </table>
                             </div>
                         </div>
+
+                       
                     </div>
                 </div>
+
+                 <div class="card">
+                            <div class="card-header border-0 pb-0">
+                                <h4 class="card-title">Quick Actions</h4>
+                            </div>
+                            <div class="card-body pt-2">
+                                <a href="{{ route('add_property') }}" class="btn btn-primary w-100 mb-2"><i
+                                        class="fa fa-plus me-2"></i>Add Property</a>
+                                <a href="{{ route('connect_channel') }}" class="btn btn-outline-primary w-100 mb-2"><i
+                                        class="fa fa-plug me-2"></i>Connect Channel</a>
+                                <a href="{{ route('rates') }}" class="btn btn-outline-secondary w-100 mb-2"><i
+                                        class="fa fa-calendar me-2"></i>Update Rates</a>
+                                <a href="{{ route('reports') }}" class="btn btn-outline-secondary w-100"><i
+                                        class="fa fa-bar-chart me-2"></i>View Reports</a>
+                            </div>
+                        </div>
             </div>
 
         </div>
