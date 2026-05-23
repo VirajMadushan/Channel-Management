@@ -7,6 +7,7 @@ use App\Models\Property;
 use App\Models\Room;
 use App\Models\Channel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class ReservationController extends Controller
