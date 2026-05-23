@@ -13,8 +13,8 @@ class AdminSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@hotel.com'],
             [
-                'name'     => 'Hotel Admin',
-                'email'    => 'admin@hotel.com',
+                'name' => 'Hotel Admin',
+                'email' => 'admin@hotel.com',
                 'password' => Hash::make('admin123'),
             ]
         );

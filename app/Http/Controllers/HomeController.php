@@ -25,15 +25,15 @@ class HomeController extends Controller
         // ── Stat cards ────────────────────────────────────────────────────────
         $stats = [
             'total_reservations' => Reservation::count(),
-            'total_properties'   => Property::count(),
-            'total_rooms'        => Room::count(),
-            'active_channels'    => Channel::where('status', 'active')->count(),
-            'pending'            => Reservation::where('status', 'pending')->count(),
-            'confirmed'          => Reservation::where('status', 'confirmed')->count(),
-            'checked_in'         => Reservation::where('status', 'checked_in')->count(),
-            'cancelled'          => Reservation::where('status', 'cancelled')->count(),
-            'total_revenue'      => Reservation::whereIn('status', ['confirmed', 'checked_in', 'checked_out'])
-                                        ->sum('net_amount'),
+            'total_properties' => Property::count(),
+            'total_rooms' => Room::count(),
+            'active_channels' => Channel::where('status', 'active')->count(),
+            'pending' => Reservation::where('status', 'pending')->count(),
+            'confirmed' => Reservation::where('status', 'confirmed')->count(),
+            'checked_in' => Reservation::where('status', 'checked_in')->count(),
+            'cancelled' => Reservation::where('status', 'cancelled')->count(),
+            'total_revenue' => Reservation::whereIn('status', ['confirmed', 'checked_in', 'checked_out'])
+                ->sum('net_amount'),
         ];
 
         // ── Latest 8 reservations for the table on dashboard ─────────────────
@@ -44,8 +44,8 @@ class HomeController extends Controller
 
         // ── Monthly revenue for the chart (current year) ─────────────────────
         $monthly_revenue = Reservation::selectRaw(
-                'MONTH(check_in) as month, SUM(net_amount) as revenue, COUNT(*) as bookings'
-            )
+            'MONTH(check_in) as month, SUM(net_amount) as revenue, COUNT(*) as bookings'
+        )
             ->whereYear('check_in', date('Y'))
             ->whereIn('status', ['confirmed', 'checked_in', 'checked_out'])
             ->groupBy('month')
@@ -79,6 +79,7 @@ class HomeController extends Controller
     {
         // Pass old property if editing (edit route reuses this view)
         $property = null;
+
         return view('public.pages.add_property', compact('property'));
     }
 
@@ -86,18 +87,18 @@ class HomeController extends Controller
     public function store_property(Request $request)
     {
         $request->validate([
-            'name'        => 'required|string|max:255',
-            'type'        => 'required|in:hotel,resort,villa,guesthouse,hostel,apartment',
-            'city'        => 'required|string|max:100',
-            'country'     => 'required|string|max:100',
-            'address'     => 'required|string',
+            'name' => 'required|string|max:255',
+            'type' => 'required|in:hotel,resort,villa,guesthouse,hostel,apartment',
+            'city' => 'required|string|max:100',
+            'country' => 'required|string|max:100',
+            'address' => 'required|string',
             'star_rating' => 'required|integer|between:1,5',
-            'currency'    => 'required|string|size:3',
-            'email'       => 'nullable|email',
-            'phone'       => 'nullable|string|max:20',
+            'currency' => 'required|string|size:3',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|string|max:20',
         ]);
 
-        $data             = $request->except(['_token', 'amenities']);
+        $data = $request->except(['_token', 'amenities']);
         $data['amenities'] = $request->input('amenities', []);
 
         Property::create($data);
@@ -110,6 +111,7 @@ class HomeController extends Controller
     public function edit_property($id)
     {
         $property = Property::findOrFail($id);
+
         return view('public.pages.add_property', compact('property'));
     }
 
@@ -118,7 +120,7 @@ class HomeController extends Controller
     {
         $property = Property::findOrFail($id);
 
-        $data             = $request->except(['_token', '_method', 'amenities']);
+        $data = $request->except(['_token', '_method', 'amenities']);
         $data['amenities'] = $request->input('amenities', []);
 
         $property->update($data);
@@ -131,6 +133,7 @@ class HomeController extends Controller
     public function delete_property($id)
     {
         Property::findOrFail($id)->delete();
+
         return redirect()->route('properties')
             ->with('success', 'Property deleted.');
     }
@@ -153,7 +156,8 @@ class HomeController extends Controller
     public function add_room()
     {
         $properties = Property::where('status', 'active')->get();
-        $room       = null;
+        $room = null;
+
         return view('public.pages.add_room', compact('properties', 'room'));
     }
 
@@ -162,15 +166,15 @@ class HomeController extends Controller
     {
         $request->validate([
             'property_id' => 'required|exists:properties,id',
-            'name'        => 'required|string|max:255',
-            'category'    => 'required|in:standard,deluxe,suite,villa,dormitory',
-            'bed_type'    => 'required|in:single,double,queen,king,twin,bunk',
+            'name' => 'required|string|max:255',
+            'category' => 'required|in:standard,deluxe,suite,villa,dormitory',
+            'bed_type' => 'required|in:single,double,queen,king,twin,bunk',
             'total_rooms' => 'required|integer|min:1',
-            'base_rate'   => 'required|numeric|min:0',
-            'max_adults'  => 'required|integer|min:1',
+            'base_rate' => 'required|numeric|min:0',
+            'max_adults' => 'required|integer|min:1',
         ]);
 
-        $data             = $request->except(['_token', 'amenities']);
+        $data = $request->except(['_token', 'amenities']);
         $data['amenities'] = $request->input('amenities', []);
 
         Room::create($data);
@@ -182,16 +186,17 @@ class HomeController extends Controller
     // GET /rooms/{id}/edit
     public function edit_room($id)
     {
-        $room       = Room::findOrFail($id);
+        $room = Room::findOrFail($id);
         $properties = Property::where('status', 'active')->get();
+
         return view('public.pages.add_room', compact('room', 'properties'));
     }
 
     // PUT /rooms/{id}
     public function update_room(Request $request, $id)
     {
-        $room             = Room::findOrFail($id);
-        $data             = $request->except(['_token', '_method', 'amenities']);
+        $room = Room::findOrFail($id);
+        $data = $request->except(['_token', '_method', 'amenities']);
         $data['amenities'] = $request->input('amenities', []);
         $room->update($data);
 
@@ -203,6 +208,7 @@ class HomeController extends Controller
     public function delete_room($id)
     {
         Room::findOrFail($id)->delete();
+
         return redirect()->route('rooms')
             ->with('success', 'Room deleted.');
     }
@@ -219,8 +225,8 @@ class HomeController extends Controller
         // Decrypt API keys for display (masked)
         foreach ($channels as $ch) {
             try {
-                $raw       = decrypt($ch->getRawOriginal('api_key') ?? '');
-                $ch->api_key_display = substr($raw, 0, 6) . '••••••••';
+                $raw = decrypt($ch->getRawOriginal('api_key') ?? '');
+                $ch->api_key_display = substr($raw, 0, 6).'••••••••';
             } catch (\Exception $e) {
                 $ch->api_key_display = '••••••••';
             }
@@ -233,6 +239,7 @@ class HomeController extends Controller
     public function connect_channel()
     {
         $properties = Property::where('status', 'active')->get();
+
         return view('public.pages.connect_channel', compact('properties'));
     }
 
@@ -240,18 +247,18 @@ class HomeController extends Controller
     public function store_channel(Request $request)
     {
         $request->validate([
-            'property_id'     => 'required|exists:properties,id',
-            'ota_name'        => 'required|in:booking_com,expedia,airbnb,agoda,hotels_com,trivago,direct',
-            'display_name'    => 'required|string|max:100',
+            'property_id' => 'required|exists:properties,id',
+            'ota_name' => 'required|in:booking_com,expedia,airbnb,agoda,hotels_com,trivago,direct',
+            'display_name' => 'required|string|max:100',
             'commission_rate' => 'required|numeric|min:0|max:100',
-            'hotel_id'        => 'nullable|string|max:100',
-            'api_key'         => 'nullable|string',
+            'hotel_id' => 'nullable|string|max:100',
+            'api_key' => 'nullable|string',
         ]);
 
         $data = $request->except(['_token']);
 
         // Encrypt the API key before storing
-        if (!empty($data['api_key'])) {
+        if (! empty($data['api_key'])) {
             $data['api_key'] = encrypt($data['api_key']);
         }
 
@@ -265,10 +272,10 @@ class HomeController extends Controller
     public function update_channel(Request $request, $id)
     {
         $channel = Channel::findOrFail($id);
-        $data    = $request->except(['_token', '_method']);
+        $data = $request->except(['_token', '_method']);
 
         // Only update API key if a new one was typed
-        if (!empty($data['api_key'])) {
+        if (! empty($data['api_key'])) {
             $data['api_key'] = encrypt($data['api_key']);
         } else {
             unset($data['api_key']);          // keep old encrypted key untouched
@@ -284,6 +291,7 @@ class HomeController extends Controller
     public function delete_channel($id)
     {
         Channel::findOrFail($id)->delete();
+
         return redirect()->route('channels')
             ->with('success', 'Channel removed.');
     }
@@ -295,7 +303,7 @@ class HomeController extends Controller
     // GET /rates
     public function rates()
     {
-        $rooms    = Room::with('property')->where('status', 'active')->get();
+        $rooms = Room::with('property')->where('status', 'active')->get();
         $channels = Channel::where('status', 'active')->get();
 
         // Show next 30 days of rates
@@ -312,24 +320,24 @@ class HomeController extends Controller
     public function store_rate(Request $request)
     {
         $request->validate([
-            'room_id'         => 'required|exists:rooms,id',
-            'date'            => 'required|date',
-            'rate'            => 'required|numeric|min:0',
+            'room_id' => 'required|exists:rooms,id',
+            'date' => 'required|date',
+            'rate' => 'required|numeric|min:0',
             'available_rooms' => 'required|integer|min:0',
         ]);
 
         // updateOrCreate prevents duplicate for same room+channel+date
         Rate::updateOrCreate(
             [
-                'room_id'    => $request->room_id,
+                'room_id' => $request->room_id,
                 'channel_id' => $request->channel_id ?: null,
-                'date'       => $request->date,
+                'date' => $request->date,
             ],
             [
-                'rate'            => $request->rate,
+                'rate' => $request->rate,
                 'available_rooms' => $request->available_rooms,
-                'is_closed'       => $request->boolean('is_closed'),
-                'min_stay'        => $request->input('min_stay', 1),
+                'is_closed' => $request->boolean('is_closed'),
+                'min_stay' => $request->input('min_stay', 1),
             ]
         );
 
@@ -341,6 +349,7 @@ class HomeController extends Controller
     {
         $rate = Rate::findOrFail($id);
         $rate->update($request->only(['rate', 'available_rooms', 'is_closed', 'min_stay']));
+
         return back()->with('success', 'Rate updated!');
     }
 
@@ -362,8 +371,9 @@ class HomeController extends Controller
     public function booking()
     {
         $properties = Property::where('status', 'active')->get();
-        $rooms      = Room::where('status', 'active')->with('property')->get();
-        $channels   = Channel::where('status', 'active')->get();
+        $rooms = Room::where('status', 'active')->with('property')->get();
+        $channels = Channel::where('status', 'active')->get();
+
         return view('public.pages.booking', compact('properties', 'rooms', 'channels'));
     }
 
@@ -371,57 +381,57 @@ class HomeController extends Controller
     public function store_reservation(Request $request)
     {
         $request->validate([
-            'property_id'  => 'required|exists:properties,id',
-            'room_id'      => 'required|exists:rooms,id',
-            'guest_name'   => 'required|string|max:255',
-            'guest_email'  => 'nullable|email',
-            'guest_phone'  => 'nullable|string|max:20',
-            'guest_country'=> 'nullable|string|max:100',
-            'check_in'     => 'required|date|after_or_equal:today',
-            'check_out'    => 'required|date|after:check_in',
-            'adults'       => 'required|integer|min:1',
-            'children'     => 'nullable|integer|min:0',
-            'room_rate'    => 'required|numeric|min:0',
+            'property_id' => 'required|exists:properties,id',
+            'room_id' => 'required|exists:rooms,id',
+            'guest_name' => 'required|string|max:255',
+            'guest_email' => 'nullable|email',
+            'guest_phone' => 'nullable|string|max:20',
+            'guest_country' => 'nullable|string|max:100',
+            'check_in' => 'required|date|after_or_equal:today',
+            'check_out' => 'required|date|after:check_in',
+            'adults' => 'required|integer|min:1',
+            'children' => 'nullable|integer|min:0',
+            'room_rate' => 'required|numeric|min:0',
         ]);
 
         // Calculate nights and financials
-        $checkIn   = Carbon::parse($request->check_in);
-        $checkOut  = Carbon::parse($request->check_out);
-        $nights    = $checkIn->diffInDays($checkOut);
-        $total     = $nights * $request->room_rate;
+        $checkIn = Carbon::parse($request->check_in);
+        $checkOut = Carbon::parse($request->check_out);
+        $nights = $checkIn->diffInDays($checkOut);
+        $total = $nights * $request->room_rate;
 
         $commission = 0;
         if ($request->channel_id) {
-            $channel    = Channel::find($request->channel_id);
+            $channel = Channel::find($request->channel_id);
             $commission = $channel ? round($total * $channel->commission_rate / 100, 2) : 0;
         }
 
         // Generate unique booking ID  e.g. RES-2026-00042
-        $count     = Reservation::count() + 1;
-        $bookingId = 'RES-' . date('Y') . '-' . str_pad($count, 5, '0', STR_PAD_LEFT);
+        $count = Reservation::count() + 1;
+        $bookingId = 'RES-'.date('Y').'-'.str_pad($count, 5, '0', STR_PAD_LEFT);
 
         Reservation::create([
-            'booking_id'        => $bookingId,
-            'property_id'       => $request->property_id,
-            'room_id'           => $request->room_id,
-            'channel_id'        => $request->channel_id ?: null,
-            'guest_name'        => $request->guest_name,
-            'guest_email'       => $request->guest_email,
-            'guest_phone'       => $request->guest_phone,
-            'guest_country'     => $request->guest_country,
-            'check_in'          => $request->check_in,
-            'check_out'         => $request->check_out,
-            'nights'            => $nights,
-            'adults'            => $request->adults,
-            'children'          => $request->input('children', 0),
-            'room_rate'         => $request->room_rate,
-            'total_amount'      => $total,
+            'booking_id' => $bookingId,
+            'property_id' => $request->property_id,
+            'room_id' => $request->room_id,
+            'channel_id' => $request->channel_id ?: null,
+            'guest_name' => $request->guest_name,
+            'guest_email' => $request->guest_email,
+            'guest_phone' => $request->guest_phone,
+            'guest_country' => $request->guest_country,
+            'check_in' => $request->check_in,
+            'check_out' => $request->check_out,
+            'nights' => $nights,
+            'adults' => $request->adults,
+            'children' => $request->input('children', 0),
+            'room_rate' => $request->room_rate,
+            'total_amount' => $total,
             'commission_amount' => $commission,
-            'net_amount'        => $total - $commission,
-            'currency'          => $request->input('currency', 'USD'),
-            'status'            => 'confirmed',
-            'special_requests'  => $request->special_requests,
-            'ota_booking_id'    => $request->ota_booking_id,
+            'net_amount' => $total - $commission,
+            'currency' => $request->input('currency', 'USD'),
+            'status' => 'confirmed',
+            'special_requests' => $request->special_requests,
+            'ota_booking_id' => $request->ota_booking_id,
         ]);
 
         return redirect()->route('reservations')
@@ -445,6 +455,7 @@ class HomeController extends Controller
     public function delete_reservation($id)
     {
         Reservation::findOrFail($id)->delete();
+
         return redirect()->route('reservations')
             ->with('success', 'Reservation deleted.');
     }
@@ -458,46 +469,46 @@ class HomeController extends Controller
     {
         $report = [
             // Overall totals
-            'total_revenue'   => Reservation::whereIn('status', ['confirmed', 'checked_in', 'checked_out'])
-                                    ->sum('net_amount'),
-            'total_bookings'  => Reservation::count(),
-            'avg_nights'      => round(Reservation::avg('nights'), 1),
-            'occupancy_rate'  => $this->occupancyRate(),
+            'total_revenue' => Reservation::whereIn('status', ['confirmed', 'checked_in', 'checked_out'])
+                ->sum('net_amount'),
+            'total_bookings' => Reservation::count(),
+            'avg_nights' => round(Reservation::avg('nights'), 1),
+            'occupancy_rate' => $this->occupancyRate(),
 
             // Breakdown by OTA channel
-            'by_channel'      => Reservation::selectRaw(
-                                    'channel_id, COUNT(*) as total, SUM(net_amount) as revenue'
-                                 )
-                                 ->groupBy('channel_id')
-                                 ->with('channel')
-                                 ->get(),
+            'by_channel' => Reservation::selectRaw(
+                'channel_id, COUNT(*) as total, SUM(net_amount) as revenue'
+            )
+                ->groupBy('channel_id')
+                ->with('channel')
+                ->get(),
 
             // Breakdown by status
-            'by_status'       => Reservation::selectRaw('status, COUNT(*) as total')
-                                    ->groupBy('status')
-                                    ->pluck('total', 'status'),
+            'by_status' => Reservation::selectRaw('status, COUNT(*) as total')
+                ->groupBy('status')
+                ->pluck('total', 'status'),
 
             // Monthly revenue this year
-            'monthly'         => Reservation::selectRaw(
-                                    'MONTH(check_in) as month,
+            'monthly' => Reservation::selectRaw(
+                'MONTH(check_in) as month,
                                      COUNT(*) as bookings,
                                      SUM(net_amount) as revenue'
-                                 )
-                                 ->whereYear('check_in', date('Y'))
-                                 ->groupBy('month')
-                                 ->orderBy('month')
-                                 ->get()
-                                 ->keyBy('month'),
+            )
+                ->whereYear('check_in', date('Y'))
+                ->groupBy('month')
+                ->orderBy('month')
+                ->get()
+                ->keyBy('month'),
 
             // Top 5 rooms by revenue
-            'top_rooms'       => Reservation::selectRaw(
-                                    'room_id, COUNT(*) as bookings, SUM(net_amount) as revenue'
-                                 )
-                                 ->groupBy('room_id')
-                                 ->with('room')
-                                 ->orderByDesc('revenue')
-                                 ->take(5)
-                                 ->get(),
+            'top_rooms' => Reservation::selectRaw(
+                'room_id, COUNT(*) as bookings, SUM(net_amount) as revenue'
+            )
+                ->groupBy('room_id')
+                ->with('room')
+                ->orderByDesc('revenue')
+                ->take(5)
+                ->get(),
         ];
 
         return view('public.pages.reports', compact('report'));
@@ -507,9 +518,12 @@ class HomeController extends Controller
     private function occupancyRate(): float
     {
         $totalRooms = Room::sum('total_rooms');
-        if ($totalRooms === 0) return 0;
+        if ($totalRooms === 0) {
+            return 0;
+        }
 
         $checkedIn = Reservation::where('status', 'checked_in')->count();
+
         return round(($checkedIn / $totalRooms) * 100, 1);
     }
 

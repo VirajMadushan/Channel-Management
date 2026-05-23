@@ -10,12 +10,12 @@ class ReservationService
 {
     public function checkAvailability($roomId, $checkIn, $checkOut): bool
     {
-        return !Reservation::where('room_id', $roomId)
+        return ! Reservation::where('room_id', $roomId)
 
             ->whereIn('status', [
                 'pending',
                 'confirmed',
-                'checked_in'
+                'checked_in',
             ])
 
             ->where(function ($query) use ($checkIn, $checkOut) {
@@ -27,7 +27,7 @@ class ReservationService
                     ->orWhere(function ($q) use ($checkIn, $checkOut) {
 
                         $q->where('check_in', '<=', $checkIn)
-                          ->where('check_out', '>=', $checkOut);
+                            ->where('check_out', '>=', $checkOut);
                     });
 
             })
@@ -48,6 +48,6 @@ class ReservationService
 
     public function generateBookingId(): string
     {
-        return 'RES-' . now()->format('YmdHis');
+        return 'RES-'.now()->format('YmdHis');
     }
 }
