@@ -27,38 +27,38 @@ class PropertyController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'         => 'required|string|max:255',
-            'type'         => 'required|string',
-            'star_rating'  => 'required|integer|min:1|max:5',
-            'city'         => 'required|string',
-            'country'      => 'required|string',
-            'address'      => 'required|string',
-            'email'        => 'required|email',
-            'phone'        => 'required|string',
-            'total_rooms'  => 'required|integer|min:1',
-            'check_in_time'  => 'required',
+            'name' => 'required|string|max:255',
+            'type' => 'required|string',
+            'star_rating' => 'required|integer|min:1|max:5',
+            'city' => 'required|string',
+            'country' => 'required|string',
+            'address' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|string',
+            'total_rooms' => 'required|integer|min:1',
+            'check_in_time' => 'required',
             'check_out_time' => 'required',
         ]);
 
         Property::create([
-            'name'           => $request->name,
-            'type'           => $request->type,
-            'star_rating'    => $request->star_rating,
-            'city'           => $request->city,
-            'country'        => $request->country,
-            'address'        => $request->address,
-            'email'          => $request->email,
-            'phone'          => $request->phone,
-            'website'        => $request->website,
-            'description'    => $request->description,
-            'check_in_time'  => $request->check_in_time,
+            'name' => $request->name,
+            'type' => $request->type,
+            'star_rating' => $request->star_rating,
+            'city' => $request->city,
+            'country' => $request->country,
+            'address' => $request->address,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'website' => $request->website,
+            'description' => $request->description,
+            'check_in_time' => $request->check_in_time,
             'check_out_time' => $request->check_out_time,
-            'total_rooms'    => $request->total_rooms,
-            'currency'       => $request->currency ?? 'USD',
-            'status'         => $request->status ?? 'active',
-            'amenities'      => $request->amenities ?? [],
-            'latitude'       => $request->latitude,
-            'longitude'      => $request->longitude,
+            'total_rooms' => $request->total_rooms,
+            'currency' => $request->currency ?? 'USD',
+            'status' => $request->status ?? 'active',
+            'amenities' => $request->amenities ?? [],
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
         ]);
 
         return redirect()->route('properties.index')
@@ -78,6 +78,7 @@ class PropertyController extends Controller
     public function edit($id)
     {
         $property = Property::findOrFail($id);
+
         return view('pages.edit_property', compact('property'));
     }
 

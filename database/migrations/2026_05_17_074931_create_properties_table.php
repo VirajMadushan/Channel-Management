@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('type', ['hotel','resort','villa','guesthouse','hostel','apartment'])->default('hotel');
+            $table->enum('type', ['hotel', 'resort', 'villa', 'guesthouse', 'hostel', 'apartment'])->default('hotel');
             $table->tinyInteger('star_rating')->default(3);
             $table->string('city');
             $table->string('country');
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->time('check_out_time')->default('11:00:00');
             $table->integer('total_rooms')->default(0);
             $table->string('currency', 3)->default('USD');
-            $table->enum('status', ['active','inactive'])->default('active');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->json('amenities')->nullable();
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();

@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
 {
@@ -19,7 +20,7 @@ class Reservation extends Model
     ];
 
     protected $casts = [
-        'check_in'  => 'date',
+        'check_in' => 'date',
         'check_out' => 'date',
     ];
 
@@ -40,13 +41,13 @@ class Reservation extends Model
 
     public function statusColor()
     {
-        return match($this->status) {
-            'confirmed'   => 'success',
-            'pending'     => 'warning',
-            'checked_in'  => 'info',
+        return match ($this->status) {
+            'confirmed' => 'success',
+            'pending' => 'warning',
+            'checked_in' => 'info',
             'checked_out' => 'secondary',
-            'cancelled'   => 'danger',
-            default       => 'primary',
+            'cancelled' => 'danger',
+            default => 'primary',
         };
     }
 }

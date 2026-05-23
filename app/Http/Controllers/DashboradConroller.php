@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Property;
-use App\Models\Room;
 use App\Models\Channel;
 use App\Models\Reservation;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -14,14 +11,14 @@ class DashboardController extends Controller
     public function index()
     {
         // ── Stat Cards ──────────────────────────────
-        $totalBookings   = Reservation::count();
-        $occupancyRate   = 78; // calculate from rooms/reservations
-        $totalRevenue    = Reservation::where('status','!=','cancelled')->sum('total_amount');
-        $activeChannels  = Channel::where('status','active')->count();
+        $totalBookings = Reservation::count();
+        $occupancyRate = 78; // calculate from rooms/reservations
+        $totalRevenue = Reservation::where('status', '!=', 'cancelled')->sum('total_amount');
+        $activeChannels = Channel::where('status', 'active')->count();
 
         // ── Recent Reservations ──────────────────────
-        $recentReservations = Reservation::with(['room','channel','property'])
-            ->orderBy('created_at','desc')
+        $recentReservations = Reservation::with(['room', 'channel', 'property'])
+            ->orderBy('created_at', 'desc')
             ->limit(6)
             ->get();
 
@@ -31,15 +28,15 @@ class DashboardController extends Controller
             ->get();
 
         // ── Today's Check-ins ────────────────────────
-        $checkIns = Reservation::with(['room','channel'])
+        $checkIns = Reservation::with(['room', 'channel'])
             ->whereDate('check_in', Carbon::today())
-            ->where('status','!=','cancelled')
+            ->where('status', '!=', 'cancelled')
             ->get();
 
         // ── Today's Check-outs ───────────────────────
-        $checkOuts = Reservation::with(['room','channel'])
+        $checkOuts = Reservation::with(['room', 'channel'])
             ->whereDate('check_out', Carbon::today())
-            ->where('status','!=','cancelled')
+            ->where('status', '!=', 'cancelled')
             ->get();
 
         return view('pages.dashboard', compact(

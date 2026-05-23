@@ -12,9 +12,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('property_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->enum('category', ['standard','deluxe','suite','villa','dormitory'])->default('standard');
-            $table->enum('bed_type', ['single','double','queen','king','twin','bunk'])->default('double');
-            $table->enum('view_type', ['city','garden','pool','ocean','mountain','none'])->default('none');
+            $table->enum('category', ['standard', 'deluxe', 'suite', 'villa', 'dormitory'])->default('standard');
+            $table->enum('bed_type', ['single', 'double', 'queen', 'king', 'twin', 'bunk'])->default('double');
+            $table->enum('view_type', ['city', 'garden', 'pool', 'ocean', 'mountain', 'none'])->default('none');
             $table->integer('total_rooms')->default(1);
             $table->integer('max_adults')->default(2);
             $table->integer('max_children')->default(1);
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->integer('min_stay')->default(1);
             $table->integer('max_stay')->nullable();
             $table->text('description')->nullable();
-            $table->enum('status', ['active','inactive'])->default('active');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->json('amenities')->nullable();
             $table->timestamps();
         });
