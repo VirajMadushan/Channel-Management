@@ -1,617 +1,226 @@
 @extends('public.layouts.app')
-@section('content')
-    <div class="content-body">
-        <div class="container-fluid">
 
-          
-            <!-- STAT CARDS -->
-            <div class="row">
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card">
-                        <div class="card-body d-flex align-items-center gap-3">
-                            <div class="bgl-primary rounded p-3">
-                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                                    <circle cx="12" cy="12" r="9" stroke="var(--primary)" stroke-width="1.5"
-                                        fill="none" />
-                                    <path d="M2 12h20M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" stroke="var(--primary)"
-                                        stroke-width="1.5" fill="none" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="mb-1 fs-13">Total Channels</p>
-                                <h3 class="mb-0 font-w700">6</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card">
-                        <div class="card-body d-flex align-items-center gap-3">
-                            <div class="bgl-success rounded p-3">
-                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                                    <circle cx="12" cy="12" r="9" fill="#3AC977" />
-                                    <path d="M8 12l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="mb-1 fs-13">Live &amp; Active</p>
-                                <h3 class="mb-0 font-w700">4</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card">
-                        <div class="card-body d-flex align-items-center gap-3">
-                            <div class="bgl-warning rounded p-3">
-                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                                    <circle cx="12" cy="12" r="9" fill="#FFAB2D" opacity="0.3" />
-                                    <path d="M12 7v5l3 3" stroke="#FFAB2D" stroke-width="2" stroke-linecap="round" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="mb-1 fs-13">Syncing</p>
-                                <h3 class="mb-0 font-w700">1</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card">
-                        <div class="card-body d-flex align-items-center gap-3">
-                            <div class="bgl-danger rounded p-3">
-                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                                    <circle cx="12" cy="12" r="9" fill="#FF5E5E" opacity="0.2" />
-                                    <path d="M9 9l6 6M15 9l-6 6" stroke="#FF5E5E" stroke-width="2" stroke-linecap="round" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="mb-1 fs-13">Offline / Error</p>
-                                <h3 class="mb-0 font-w700">1</h3>
-                            </div>
-                        </div>
-                    </div>
+@section('title', 'Channels')
+
+@section('content')
+<div class="content-body">
+    <div class="container-fluid">
+
+        {{-- Page Header --}}
+        <div class="row page-titles mx-0">
+            <div class="col-sm-6 p-md-0">
+                <div class="welcome-text">
+                    <h4>Channels (OTAs)</h4>
+                    <p class="mb-0">Manage your connected booking channels</p>
                 </div>
             </div>
+            <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                <a href="{{ route('connect_channel') }}" class="btn btn-primary btn-rounded">
+                    <i class="fa fa-plus me-2"></i> Connect Channel
+                </a>
+            </div>
+        </div>
 
-            <!-- CHANNEL CARDS -->
+        {{-- Flash Messages --}}
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show mx-3">
+                <i class="fa fa-check-circle me-2"></i> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show mx-3">
+                <i class="fa fa-exclamation-circle me-2"></i> {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        {{-- OTA Cards --}}
+        @if($channels->isEmpty())
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header border-0 pb-0">
-                            <h4 class="card-title">Connected OTA Channels</h4>
-                            <a href="connect-channel.html" class="btn btn-primary btn-sm rounded-pill">
-                                <i class="fa fa-plus me-1"></i> Connect New Channel
+                        <div class="card-body text-center py-5">
+                            <i class="fa fa-globe fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No channels connected yet</h5>
+                            <p class="text-muted">Connect your first OTA channel to start receiving bookings</p>
+                            <a href="{{ route('connect_channel') }}" class="btn btn-primary">
+                                <i class="fa fa-plus me-2"></i> Connect Channel
                             </a>
                         </div>
-                        <div class="card-body">
-                            <div class="row g-3">
+                    </div>
+                </div>
+            </div>
+        @else
 
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="card mb-0 h-100 border"
-                                        style="border-color:rgba(255,255,255,.08)!important;">
-                                        <div class="card-body">
-                                            <!-- Header -->
-                                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="rounded bgl-primary p-3 text-center"
-                                                        style="min-width:52px;">
-                                                        <span class="fw-bold fs-16 text-primary">BK</span>
-                                                    </div>
-                                                    <div>
-                                                        <p class="mb-0 fw-bold fs-15">Booking.com</p>
-                                                        <small class="text-muted">Connectivity API v2</small>
-                                                    </div>
-                                                </div>
-                                                <span class="badge badge-success light">Live</span>
-                                            </div>
-                                            <!-- Stats -->
-                                            <div class="row g-2 mb-3">
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-primary">482</p>
-                                                    <small class="text-muted fs-11">Bookings</small>
-                                                </div>
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-success">$38,400</p>
-                                                    <small class="text-muted fs-11">Revenue</small>
-                                                </div>
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-warning">15%</p>
-                                                    <small class="text-muted fs-11">Commission</small>
-                                                </div>
-                                            </div>
-                                            <!-- Last sync -->
-                                            <div class="d-flex align-items-center gap-2 mb-3 p-2 rounded"
-                                                style="background:rgba(255,255,255,.04);">
-                                                <i class="fa fa-refresh text-primary fs-12"></i>
-                                                <small class="text-muted">Last sync: 2 mins ago</small>
-                                            </div>
-                                            <!-- Properties connected -->
-                                            <div class="mb-3">
-                                                <small class="text-muted d-block mb-1">Connected Properties</small>
-                                                <div class="d-flex flex-wrap gap-1">
-                                                    <span class="badge badge-primary light me-1">Grand Oceanic</span><span
-                                                        class="badge badge-primary light">Palm Beach</span>
-                                                </div>
-                                            </div>
-                                            <!-- Actions -->
-                                            <div class="d-flex gap-2">
-                                                <a href="#" class="btn btn-xs btn-primary flex-fill"
-                                                    onclick="syncChannel(this,'Booking.com')"><i
-                                                        class="fa fa-refresh me-1"></i>Sync</a>
-                                                <a href="#" class="btn btn-xs btn-outline-warning flex-fill"><i
-                                                        class="fa fa-cog me-1"></i>Settings</a>
-                                                <a href="#" class="btn btn-xs btn-outline-danger"><i
-                                                        class="fa fa-unlink"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="card mb-0 h-100 border"
-                                        style="border-color:rgba(255,255,255,.08)!important;">
-                                        <div class="card-body">
-                                            <!-- Header -->
-                                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="rounded bgl-warning p-3 text-center"
-                                                        style="min-width:52px;">
-                                                        <span class="fw-bold fs-16 text-warning">EX</span>
-                                                    </div>
-                                                    <div>
-                                                        <p class="mb-0 fw-bold fs-15">Expedia</p>
-                                                        <small class="text-muted">EPS Rapid API</small>
-                                                    </div>
-                                                </div>
-                                                <span class="badge badge-success light">Live</span>
-                                            </div>
-                                            <!-- Stats -->
-                                            <div class="row g-2 mb-3">
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-primary">316</p>
-                                                    <small class="text-muted fs-11">Bookings</small>
-                                                </div>
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-success">$24,800</p>
-                                                    <small class="text-muted fs-11">Revenue</small>
-                                                </div>
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-warning">18%</p>
-                                                    <small class="text-muted fs-11">Commission</small>
-                                                </div>
-                                            </div>
-                                            <!-- Last sync -->
-                                            <div class="d-flex align-items-center gap-2 mb-3 p-2 rounded"
-                                                style="background:rgba(255,255,255,.04);">
-                                                <i class="fa fa-refresh text-warning fs-12"></i>
-                                                <small class="text-muted">Last sync: 5 mins ago</small>
-                                            </div>
-                                            <!-- Properties connected -->
-                                            <div class="mb-3">
-                                                <small class="text-muted d-block mb-1">Connected Properties</small>
-                                                <div class="d-flex flex-wrap gap-1">
-                                                    <span class="badge badge-warning light me-1">Grand Oceanic</span><span
-                                                        class="badge badge-warning light">Kandy Boutique</span>
-                                                </div>
-                                            </div>
-                                            <!-- Actions -->
-                                            <div class="d-flex gap-2">
-                                                <a href="#" class="btn btn-xs btn-warning flex-fill"
-                                                    onclick="syncChannel(this,'Expedia')"><i
-                                                        class="fa fa-refresh me-1"></i>Sync</a>
-                                                <a href="#" class="btn btn-xs btn-outline-warning flex-fill"><i
-                                                        class="fa fa-cog me-1"></i>Settings</a>
-                                                <a href="#" class="btn btn-xs btn-outline-danger"><i
-                                                        class="fa fa-unlink"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="card mb-0 h-100 border"
-                                        style="border-color:rgba(255,255,255,.08)!important;">
-                                        <div class="card-body">
-                                            <!-- Header -->
-                                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="rounded bgl-danger p-3 text-center"
-                                                        style="min-width:52px;">
-                                                        <span class="fw-bold fs-16 text-danger">AB</span>
-                                                    </div>
-                                                    <div>
-                                                        <p class="mb-0 fw-bold fs-15">Airbnb</p>
-                                                        <small class="text-muted">Open API</small>
-                                                    </div>
-                                                </div>
-                                                <span class="badge badge-success light">Live</span>
-                                            </div>
-                                            <!-- Stats -->
-                                            <div class="row g-2 mb-3">
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-primary">198</p>
-                                                    <small class="text-muted fs-11">Bookings</small>
-                                                </div>
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-success">$18,200</p>
-                                                    <small class="text-muted fs-11">Revenue</small>
-                                                </div>
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-warning">3%</p>
-                                                    <small class="text-muted fs-11">Commission</small>
-                                                </div>
-                                            </div>
-                                            <!-- Last sync -->
-                                            <div class="d-flex align-items-center gap-2 mb-3 p-2 rounded"
-                                                style="background:rgba(255,255,255,.04);">
-                                                <i class="fa fa-refresh text-danger fs-12"></i>
-                                                <small class="text-muted">Last sync: 12 mins ago</small>
-                                            </div>
-                                            <!-- Properties connected -->
-                                            <div class="mb-3">
-                                                <small class="text-muted d-block mb-1">Connected Properties</small>
-                                                <div class="d-flex flex-wrap gap-1">
-                                                    <span class="badge badge-danger light">Sunset Villa</span>
-                                                </div>
-                                            </div>
-                                            <!-- Actions -->
-                                            <div class="d-flex gap-2">
-                                                <a href="#" class="btn btn-xs btn-danger flex-fill"
-                                                    onclick="syncChannel(this,'Airbnb')"><i
-                                                        class="fa fa-refresh me-1"></i>Sync</a>
-                                                <a href="#" class="btn btn-xs btn-outline-warning flex-fill"><i
-                                                        class="fa fa-cog me-1"></i>Settings</a>
-                                                <a href="#" class="btn btn-xs btn-outline-danger"><i
-                                                        class="fa fa-unlink"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="card mb-0 h-100 border"
-                                        style="border-color:rgba(255,255,255,.08)!important;">
-                                        <div class="card-body">
-                                            <!-- Header -->
-                                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="rounded bgl-info p-3 text-center" style="min-width:52px;">
-                                                        <span class="fw-bold fs-16 text-info">HC</span>
-                                                    </div>
-                                                    <div>
-                                                        <p class="mb-0 fw-bold fs-15">Hotels.com</p>
-                                                        <small class="text-muted">Partner API</small>
-                                                    </div>
-                                                </div>
-                                                <span class="badge badge-success light">Live</span>
-                                            </div>
-                                            <!-- Stats -->
-                                            <div class="row g-2 mb-3">
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-primary">142</p>
-                                                    <small class="text-muted fs-11">Bookings</small>
-                                                </div>
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-success">$11,400</p>
-                                                    <small class="text-muted fs-11">Revenue</small>
-                                                </div>
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-warning">15%</p>
-                                                    <small class="text-muted fs-11">Commission</small>
-                                                </div>
-                                            </div>
-                                            <!-- Last sync -->
-                                            <div class="d-flex align-items-center gap-2 mb-3 p-2 rounded"
-                                                style="background:rgba(255,255,255,.04);">
-                                                <i class="fa fa-refresh text-info fs-12"></i>
-                                                <small class="text-muted">Last sync: 8 mins ago</small>
-                                            </div>
-                                            <!-- Properties connected -->
-                                            <div class="mb-3">
-                                                <small class="text-muted d-block mb-1">Connected Properties</small>
-                                                <div class="d-flex flex-wrap gap-1">
-                                                    <span class="badge badge-info light me-1">Grand Oceanic</span><span
-                                                        class="badge badge-info light">Palm Beach</span>
-                                                </div>
-                                            </div>
-                                            <!-- Actions -->
-                                            <div class="d-flex gap-2">
-                                                <a href="#" class="btn btn-xs btn-info flex-fill"
-                                                    onclick="syncChannel(this,'Hotels.com')"><i
-                                                        class="fa fa-refresh me-1"></i>Sync</a>
-                                                <a href="#" class="btn btn-xs btn-outline-warning flex-fill"><i
-                                                        class="fa fa-cog me-1"></i>Settings</a>
-                                                <a href="#" class="btn btn-xs btn-outline-danger"><i
-                                                        class="fa fa-unlink"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="card mb-0 h-100 border"
-                                        style="border-color:rgba(255,255,255,.08)!important;">
-                                        <div class="card-body">
-                                            <!-- Header -->
-                                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="rounded bgl-success p-3 text-center"
-                                                        style="min-width:52px;">
-                                                        <span class="fw-bold fs-16 text-success">AG</span>
-                                                    </div>
-                                                    <div>
-                                                        <p class="mb-0 fw-bold fs-15">Agoda</p>
-                                                        <small class="text-muted">YCS API</small>
-                                                    </div>
-                                                </div>
-                                                <span class="badge badge-warning light">Syncing</span>
-                                            </div>
-                                            <!-- Stats -->
-                                            <div class="row g-2 mb-3">
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-primary">87</p>
-                                                    <small class="text-muted fs-11">Bookings</small>
-                                                </div>
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-success">$7,100</p>
-                                                    <small class="text-muted fs-11">Revenue</small>
-                                                </div>
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-warning">15%</p>
-                                                    <small class="text-muted fs-11">Commission</small>
-                                                </div>
-                                            </div>
-                                            <!-- Last sync -->
-                                            <div class="d-flex align-items-center gap-2 mb-3 p-2 rounded"
-                                                style="background:rgba(255,255,255,.04);">
-                                                <i class="fa fa-refresh text-success fs-12"></i>
-                                                <small class="text-muted">Last sync: Syncing...</small>
-                                            </div>
-                                            <!-- Properties connected -->
-                                            <div class="mb-3">
-                                                <small class="text-muted d-block mb-1">Connected Properties</small>
-                                                <div class="d-flex flex-wrap gap-1">
-                                                    <span class="badge badge-success light">Grand Oceanic</span>
-                                                </div>
-                                            </div>
-                                            <!-- Actions -->
-                                            <div class="d-flex gap-2">
-                                                <a href="#" class="btn btn-xs btn-success flex-fill"
-                                                    onclick="syncChannel(this,'Agoda')"><i
-                                                        class="fa fa-refresh me-1"></i>Sync</a>
-                                                <a href="#" class="btn btn-xs btn-outline-warning flex-fill"><i
-                                                        class="fa fa-cog me-1"></i>Settings</a>
-                                                <a href="#" class="btn btn-xs btn-outline-danger"><i
-                                                        class="fa fa-unlink"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="card mb-0 h-100 border"
-                                        style="border-color:rgba(255,255,255,.08)!important;">
-                                        <div class="card-body">
-                                            <!-- Header -->
-                                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="rounded bgl-secondary p-3 text-center"
-                                                        style="min-width:52px;">
-                                                        <span class="fw-bold fs-16 text-secondary">TR</span>
-                                                    </div>
-                                                    <div>
-                                                        <p class="mb-0 fw-bold fs-15">Trip.com</p>
-                                                        <small class="text-muted">Not configured</small>
-                                                    </div>
-                                                </div>
-                                                <span class="badge badge-danger light">Offline</span>
-                                            </div>
-                                            <!-- Stats -->
-                                            <div class="row g-2 mb-3">
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-primary">-</p>
-                                                    <small class="text-muted fs-11">Bookings</small>
-                                                </div>
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-success">$0</p>
-                                                    <small class="text-muted fs-11">Revenue</small>
-                                                </div>
-                                                <div class="col-4 text-center">
-                                                    <p class="mb-0 fw-bold text-warning">-</p>
-                                                    <small class="text-muted fs-11">Commission</small>
-                                                </div>
-                                            </div>
-                                            <!-- Last sync -->
-                                            <div class="d-flex align-items-center gap-2 mb-3 p-2 rounded"
-                                                style="background:rgba(255,255,255,.04);">
-                                                <i class="fa fa-refresh text-secondary fs-12"></i>
-                                                <small class="text-muted">Last sync: Never</small>
-                                            </div>
-                                            <!-- Properties connected -->
-                                            <div class="mb-3">
-                                                <small class="text-muted d-block mb-1">Connected Properties</small>
-                                                <div class="d-flex flex-wrap gap-1">
-                                                    <span class="text-muted fs-12">No properties connected</span>
-                                                </div>
-                                            </div>
-                                            <!-- Actions -->
-                                            <div class="d-flex gap-2">
-                                                <a href="#" class="btn btn-xs btn-secondary flex-fill"
-                                                    onclick="syncChannel(this,'Trip.com')"><i
-                                                        class="fa fa-refresh me-1"></i>Sync</a>
-                                                <a href="#" class="btn btn-xs btn-outline-warning flex-fill"><i
-                                                        class="fa fa-cog me-1"></i>Settings</a>
-                                                <a href="#" class="btn btn-xs btn-outline-danger"><i
-                                                        class="fa fa-unlink"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            {{-- Stats Row --}}
+            <div class="row mb-4">
+                <div class="col-md-3 col-6">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-primary">{{ $channels->count() }}</h3>
+                            <p class="mb-0 text-muted">Total Channels</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-success">{{ $channels->where('status','active')->count() }}</h3>
+                            <p class="mb-0 text-muted">Active</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-warning">{{ $channels->where('status','pending')->count() }}</h3>
+                            <p class="mb-0 text-muted">Pending</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-danger">{{ $channels->where('status','inactive')->count() }}</h3>
+                            <p class="mb-0 text-muted">Inactive</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- CHANNEL PERFORMANCE TABLE -->
+            {{-- Channels Table --}}
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header border-0 pb-0">
-                            <h4 class="card-title">Channel Performance — This Month</h4>
-                            <button class="btn btn-outline-success btn-sm"><i
-                                    class="fa fa-download me-1"></i>Export</button>
+                        <div class="card-header">
+                            <h4 class="card-title">Connected Channels</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover align-middle mb-0">
+                                <table class="table table-striped table-hover">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Channel</th>
-                                            <th>Bookings</th>
-                                            <th>Revenue</th>
+                                            <th>Property</th>
+                                            <th>Hotel ID</th>
                                             <th>Commission</th>
-                                            <th>Net Revenue</th>
-                                            <th>Avg. Rate</th>
-                                            <th>Cancel Rate</th>
-                                            <th>Share</th>
+                                            <th>Sync Settings</th>
+                                            <th>Last Synced</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach($channels as $index => $channel)
                                         <tr>
-                                            <td><span class="badge badge-$79.67 light fs-13 px-3">Booking.com</span></td>
-                                            <td><strong>482</strong></td>
-                                            <td>$38,400</td>
-                                            <td class="text-danger">-$5,760</td>
-                                            <td class="text-success fw-bold">$32,640</td>
-                                            <td>5.2%</td>
-                                            <td><span class="text-38">success</span></td>
+                                            <td>{{ $index + 1 }}</td>
                                             <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="progress flex-fill" style="height:6px;">
-                                                        <div class="progress-bar bg-$79.67" style="width:primary%"></div>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-2" style="font-size:24px;">
+                                                        {{ $channel->otaLogo() }}
+                                                    </span>
+                                                    <div>
+                                                        <strong>{{ $channel->display_name }}</strong>
+                                                        <br>
+                                                        <small class="text-muted">
+                                                            {{ $channel->api_key_display ?? '••••••••' }}
+                                                        </small>
                                                     </div>
-                                                    <small>primary%</small>
+                                                </div>
+                                            </td>
+                                            <td>{{ $channel->property->name ?? 'N/A' }}</td>
+                                            <td>
+                                                <code>{{ $channel->hotel_id ?? 'Not set' }}</code>
+                                            </td>
+                                            <td>
+                                                <span class="text-warning fw-bold">
+                                                    {{ $channel->commission_rate }}%
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column gap-1">
+                                                    <span class="badge badge-{{ $channel->sync_availability ? 'success' : 'secondary' }}">
+                                                        {{ $channel->sync_availability ? '✓' : '✗' }} Availability
+                                                    </span>
+                                                    <span class="badge badge-{{ $channel->sync_rates ? 'success' : 'secondary' }}">
+                                                        {{ $channel->sync_rates ? '✓' : '✗' }} Rates
+                                                    </span>
+                                                    <span class="badge badge-{{ $channel->receive_reservations ? 'success' : 'secondary' }}">
+                                                        {{ $channel->receive_reservations ? '✓' : '✗' }} Reservations
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @if($channel->last_synced_at)
+                                                    <small>{{ $channel->last_synced_at->diffForHumans() }}</small>
+                                                @else
+                                                    <small class="text-muted">Never synced</small>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-{{ $channel->statusColor() }}">
+                                                    {{ ucfirst($channel->status) }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex gap-1 flex-column">
+
+                                                    {{-- Toggle Status --}}
+                                                    <form action="{{ route('channels.update', $channel->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <input type="hidden" name="status"
+                                                            value="{{ $channel->status === 'active' ? 'inactive' : 'active' }}">
+                                                        <input type="hidden" name="display_name" value="{{ $channel->display_name }}">
+                                                        <input type="hidden" name="commission_rate" value="{{ $channel->commission_rate }}">
+                                                        <button type="submit"
+                                                            class="btn btn-{{ $channel->status === 'active' ? 'warning' : 'success' }} btn-xs w-100">
+                                                            {{ $channel->status === 'active' ? 'Deactivate' : 'Activate' }}
+                                                        </button>
+                                                    </form>
+
+                                                    {{-- Push Rates --}}
+                                                    <form action="{{ route('booking.push.rates') }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-info btn-xs w-100">
+                                                            Push Rates
+                                                        </button>
+                                                    </form>
+
+                                                    {{-- Sync Reservations --}}
+                                                    <a href="{{ route('booking.pull') }}"
+                                                        class="btn btn-primary btn-xs w-100">
+                                                        Sync Now
+                                                    </a>
+
+                                                    {{-- Delete --}}
+                                                    <form action="{{ route('channels.delete', $channel->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Remove {{ $channel->display_name }}?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-xs w-100">
+                                                            Remove
+                                                        </button>
+                                                    </form>
+
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td><span class="badge badge-$78.48 light fs-13 px-3">Expedia</span></td>
-                                            <td><strong>316</strong></td>
-                                            <td>$24,800</td>
-                                            <td class="text-danger">-$4,464</td>
-                                            <td class="text-success fw-bold">$20,336</td>
-                                            <td>6.8%</td>
-                                            <td><span class="text-25">warning</span></td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="progress flex-fill" style="height:6px;">
-                                                        <div class="progress-bar bg-$78.48" style="width:warning%"></div>
-                                                    </div>
-                                                    <small>warning%</small>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="badge badge-$91.92 light fs-13 px-3">Airbnb</span></td>
-                                            <td><strong>198</strong></td>
-                                            <td>$18,200</td>
-                                            <td class="text-danger">-$546</td>
-                                            <td class="text-success fw-bold">$17,654</td>
-                                            <td>3.1%</td>
-                                            <td><span class="text-15">success</span></td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="progress flex-fill" style="height:6px;">
-                                                        <div class="progress-bar bg-$91.92" style="width:danger%"></div>
-                                                    </div>
-                                                    <small>danger%</small>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="badge badge-$80.28 light fs-13 px-3">Hotels.com</span></td>
-                                            <td><strong>142</strong></td>
-                                            <td>$11,400</td>
-                                            <td class="text-danger">-$1,710</td>
-                                            <td class="text-success fw-bold">$9,690</td>
-                                            <td>7.0%</td>
-                                            <td><span class="text-11">warning</span></td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="progress flex-fill" style="height:6px;">
-                                                        <div class="progress-bar bg-$80.28" style="width:info%"></div>
-                                                    </div>
-                                                    <small>info%</small>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="badge badge-$81.61 light fs-13 px-3">Agoda</span></td>
-                                            <td><strong>87</strong></td>
-                                            <td>$7,100</td>
-                                            <td class="text-danger">-$1,065</td>
-                                            <td class="text-success fw-bold">$6,035</td>
-                                            <td>4.6%</td>
-                                            <td><span class="text-7">success</span></td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="progress flex-fill" style="height:6px;">
-                                                        <div class="progress-bar bg-$81.61" style="width:success%"></div>
-                                                    </div>
-                                                    <small>success%</small>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="badge badge-$98.64 light fs-13 px-3">Direct</span></td>
-                                            <td><strong>59</strong></td>
-                                            <td>$5,820</td>
-                                            <td class="text-danger">$0</td>
-                                            <td class="text-success fw-bold">$5,820</td>
-                                            <td>2.1%</td>
-                                            <td><span class="text-5">success</span></td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="progress flex-fill" style="height:6px;">
-                                                        <div class="progress-bar bg-$98.64" style="width:dark%"></div>
-                                                    </div>
-                                                    <small>dark%</small>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        @endforeach
                                     </tbody>
-                                    <tfoot class="fw-bold">
-                                        <tr>
-                                            <td>TOTAL</td>
-                                            <td>1,284</td>
-                                            <td>$105,720</td>
-                                            <td class="text-danger">-$13,545</td>
-                                            <td class="text-success">$92,175</td>
-                                            <td>$82.34</td>
-                                            <td>5.1%</td>
-                                            <td>100%</td>
-                                        </tr>
-                                    </tfoot>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        @endif
 
-        </div>
     </div>
-
-    <script>
-        function syncChannel(btn, name) {
-            var orig = btn.innerHTML;
-            btn.innerHTML = '<i class="fa fa-spinner fa-spin me-1"></i>Syncing...';
-            btn.disabled = true;
-            setTimeout(function() {
-                btn.innerHTML = '<i class="fa fa-check me-1"></i>Synced!';
-                setTimeout(function() {
-                    btn.innerHTML = orig;
-                    btn.disabled = false;
-                }, 2000);
-            }, 2500);
-        }
-    </script>
+</div>
 @endsection
