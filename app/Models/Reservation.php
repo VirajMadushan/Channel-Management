@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Reservation extends Model
 {
@@ -20,34 +20,45 @@ class Reservation extends Model
     ];
 
     protected $casts = [
-        'check_in' => 'date',
+        'check_in'  => 'date',
         'check_out' => 'date',
     ];
 
+    // Reservation belongs to a property
     public function property()
     {
         return $this->belongsTo(Property::class);
     }
 
+    // Reservation belongs to a room
     public function room()
     {
         return $this->belongsTo(Room::class);
     }
 
+    // Reservation belongs to a channel
     public function channel()
     {
         return $this->belongsTo(Channel::class);
     }
 
+    // Helper — status badge color
     public function statusColor()
     {
-        return match ($this->status) {
-            'confirmed' => 'success',
-            'pending' => 'warning',
-            'checked_in' => 'info',
+        return match($this->status) {
+            'confirmed'   => 'success',
+            'pending'     => 'warning',
+            'checked_in'  => 'info',
             'checked_out' => 'secondary',
-            'cancelled' => 'danger',
-            default => 'primary',
+            'cancelled'   => 'danger',
+            'no_show'     => 'dark',
+            default       => 'primary',
         };
+    }
+
+    // Helper — source label
+    public function sourceLabel()
+    {
+        return $this->channel ? $this->channel->display_name : 'Direct Booking';
     }
 }

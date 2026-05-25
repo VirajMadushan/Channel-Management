@@ -1,13 +1,9 @@
 <?php
 
-// ══════════════════════════════════════════════════════════
-// FILE: app/Models/Rate.php
-// ══════════════════════════════════════════════════════════
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Rate extends Model
 {
@@ -19,7 +15,7 @@ class Rate extends Model
     ];
 
     protected $casts = [
-        'date' => 'date',
+        'date'      => 'date',
         'is_closed' => 'boolean',
     ];
 
