@@ -1,13 +1,9 @@
 <?php
 
-// ══════════════════════════════════════════════════════════
-// FILE: app/Models/Property.php
-// ══════════════════════════════════════════════════════════
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Property extends Model
 {
@@ -21,7 +17,7 @@ class Property extends Model
     ];
 
     protected $casts = [
-        'amenities' => 'array',  // JSON stored as array
+        'amenities' => 'array',
     ];
 
     // One property has many rooms
@@ -30,7 +26,7 @@ class Property extends Model
         return $this->hasMany(Room::class);
     }
 
-    // One property has many OTA channels
+    // One property has many channels
     public function channels()
     {
         return $this->hasMany(Channel::class);
@@ -40,5 +36,17 @@ class Property extends Model
     public function reservations()
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    // Helper — star rating as stars string
+    public function stars()
+    {
+        return str_repeat('★', $this->star_rating);
+    }
+
+    // Helper — active rooms count
+    public function activeRoomsCount()
+    {
+        return $this->rooms()->where('status', 'active')->count();
     }
 }
