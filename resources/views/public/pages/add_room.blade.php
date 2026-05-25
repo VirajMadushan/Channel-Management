@@ -1,383 +1,263 @@
 @extends('public.layouts.app')
+
+@section('title', isset($room) ? 'Edit Room' : 'Add Room')
+
 @section('content')
-    <!--**********************************
-                Content body start
-            ***********************************-->
-    <div class="content-body">
-        <div class="container-fluid">
+<div class="content-body">
+    <div class="container-fluid">
 
-
-            <div class="row">
-
-                <!-- LEFT: Main Form -->
-                <div class="col-xl-8">
-
-                    <!-- SECTION 1: Basic Info -->
-                    <div class="card">
-                        <div class="card-header border-0 pb-0">
-                            <h4 class="card-title"><i class="fa fa-bed text-primary me-2"></i>Room Basic Information</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Property <span class="text-danger">*</span></label>
-                                    <select class="form-control default-select">
-                                        <option value="">Select property...</option>
-                                        <option>Grand Oceanic Hotel</option>
-                                        <option>Palm Beach Resort</option>
-                                        <option>The Kandy Boutique</option>
-                                        <option>Sunset Villa Mirissa</option>
-                                        <option>City Inn Negombo</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Room Type Name <span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="e.g. Deluxe Ocean View">
-                                    <small class="text-muted">This name will appear on OTA listings</small>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Room Category <span
-                                            class="text-danger">*</span></label>
-                                    <select class="form-control default-select">
-                                        <option value="">Select category...</option>
-                                        <option>Standard Room</option>
-                                        <option>Deluxe Room</option>
-                                        <option>Superior Room</option>
-                                        <option>Suite</option>
-                                        <option>Junior Suite</option>
-                                        <option>Family Room</option>
-                                        <option>Presidential Suite</option>
-                                        <option>Villa</option>
-                                        <option>Bungalow</option>
-                                        <option>Cabana</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Bed Type <span class="text-danger">*</span></label>
-                                    <select class="form-control default-select">
-                                        <option value="">Select bed type...</option>
-                                        <option>1 King Bed</option>
-                                        <option>1 Queen Bed</option>
-                                        <option>2 Single Beds</option>
-                                        <option>2 Double Beds</option>
-                                        <option>Bunk Beds</option>
-                                        <option>Sofa Bed</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">Total Number of Rooms <span
-                                            class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" placeholder="e.g. 20" min="1">
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">Max Adults <span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" placeholder="e.g. 2" min="1"
-                                        max="10">
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">Max Children</label>
-                                    <input type="number" class="form-control" placeholder="e.g. 1" min="0"
-                                        max="6">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Room Size (m²)</label>
-                                    <input type="number" class="form-control" placeholder="e.g. 35">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Floor Number</label>
-                                    <input type="text" class="form-control" placeholder="e.g. 3rd Floor or Ground Floor">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">View Type</label>
-                                    <select class="form-control default-select">
-                                        <option>No specific view</option>
-                                        <option>Ocean View</option>
-                                        <option>Garden View</option>
-                                        <option>Pool View</option>
-                                        <option>Mountain View</option>
-                                        <option>City View</option>
-                                        <option>Courtyard View</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Status</label>
-                                    <select class="form-control default-select">
-                                        <option>Available</option>
-                                        <option>Occupied</option>
-                                        <option>Under Maintenance</option>
-                                        <option>Closed</option>
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label fw-bold">Room Description <span
-                                            class="text-danger">*</span></label>
-                                    <textarea class="form-control" rows="4"
-                                        placeholder="Describe the room — features, view, décor, what makes it special. This appears on Booking.com and Expedia listings..."></textarea>
-                                    <small class="text-muted">Minimum 80 characters recommended for OTA listings</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SECTION 2: Pricing -->
-                    <div class="card">
-                        <div class="card-header border-0 pb-0">
-                            <h4 class="card-title"><i class="fa fa-dollar text-success me-2"></i>Pricing</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">Base Rate / Night <span
-                                            class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">$</span>
-                                        <input type="number" class="form-control" placeholder="0.00" min="0"
-                                            step="0.01">
-                                    </div>
-                                    <small class="text-muted">Standard nightly price</small>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">Weekend Rate / Night</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">$</span>
-                                        <input type="number" class="form-control" placeholder="0.00" min="0"
-                                            step="0.01">
-                                    </div>
-                                    <small class="text-muted">Fri–Sun pricing (optional)</small>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">Extra Adult Charge</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">$</span>
-                                        <input type="number" class="form-control" placeholder="0.00" min="0"
-                                            step="0.01">
-                                    </div>
-                                    <small class="text-muted">Per extra adult per night</small>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">Extra Child Charge</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">$</span>
-                                        <input type="number" class="form-control" placeholder="0.00" min="0"
-                                            step="0.01">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">Tax Rate (%)</label>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" placeholder="e.g. 15" min="0"
-                                            max="100">
-                                        <span class="input-group-text">%</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">Breakfast Included?</label>
-                                    <select class="form-control default-select">
-                                        <option>No breakfast</option>
-                                        <option>Breakfast included</option>
-                                        <option>Breakfast available (+$)</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Minimum Stay (nights)</label>
-                                    <input type="number" class="form-control" placeholder="e.g. 1" min="1"
-                                        value="1">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Maximum Stay (nights)</label>
-                                    <input type="number" class="form-control" placeholder="e.g. 30 (0 = no limit)"
-                                        min="0" value="0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SECTION 3: Amenities -->
-                    <div class="card">
-                        <div class="card-header border-0 pb-0">
-                            <h4 class="card-title"><i class="fa fa-list-ul text-warning me-2"></i>Room Amenities</h4>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="text-muted fw-bold mb-3">IN-ROOM FACILITIES</h6>
-                            <div class="row g-2 mb-4">
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"
-                                            checked><label class="form-check-label fs-13">Air Conditioning</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"
-                                            checked><label class="form-check-label fs-13">Free Wi-Fi</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"
-                                            checked><label class="form-check-label fs-13">Flat-screen TV</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"
-                                            checked><label class="form-check-label fs-13">Private Bathroom</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"><label
-                                            class="form-check-label fs-13">Bathtub</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"
-                                            checked><label class="form-check-label fs-13">Hot Shower</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"><label
-                                            class="form-check-label fs-13">Minibar</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"><label
-                                            class="form-check-label fs-13">Coffee Maker</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"
-                                            checked><label class="form-check-label fs-13">Safe Box</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"><label
-                                            class="form-check-label fs-13">Balcony</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"><label
-                                            class="form-check-label fs-13">Jacuzzi</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"
-                                            checked><label class="form-check-label fs-13">Hairdryer</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"
-                                            checked><label class="form-check-label fs-13">Towels &amp; Linen</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"><label
-                                            class="form-check-label fs-13">Kitchenette</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"><label
-                                            class="form-check-label fs-13">Dining Area</label></div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"
-                                            checked><label class="form-check-label fs-13">Desk &amp; Chair</label></div>
-                                </div>
-                            </div>
-
-                            <!-- Photo Upload -->
-                            <h6 class="text-muted fw-bold mb-3">ROOM PHOTOS</h6>
-                            <div class="border rounded p-4 text-center mb-2"
-                                style="border-style:dashed!important;cursor:pointer;"
-                                onclick="document.getElementById('room-photos').click()">
-                                <i class="fa fa-camera fa-2x text-muted mb-2"></i>
-                                <p class="mb-1 fw-bold">Click to upload room photos</p>
-                                <small class="text-muted">Up to 10 photos — JPG, PNG. Min 800×600px. First photo is the
-                                    main listing image.</small>
-                                <input type="file" id="room-photos" accept="image/*" multiple style="display:none;">
-                            </div>
-                            <small class="text-muted"><i class="fa fa-info-circle text-info me-1"></i>Rooms with 5+ photos
-                                receive significantly more bookings on OTA platforms</small>
-                        </div>
-                    </div>
-
-                    <!-- ACTION BUTTONS -->
-                    <div class="card">
-                        <div class="card-body d-flex justify-content-between align-items-center py-3">
-                            <a href="rooms.html" class="btn btn-outline-secondary">
-                                <i class="fa fa-arrow-left me-2"></i>Cancel
-                            </a>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-outline-primary px-4">
-                                    <i class="fa fa-save me-2"></i>Save as Draft
-                                </button>
-                                <button class="btn btn-success px-5"
-                                    onclick="alert('Room saved successfully!\n\nNext: Set rates & availability for this room.')">
-                                    <i class="fa fa-check me-2"></i>Save Room Type
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- RIGHT: Tips & OTA Info -->
-                <div class="col-xl-4">
-
-                    <div class="card border-0" style="background:var(--primary);color:white;">
-                        <div class="card-body">
-                            <h5 class="text-white mb-3"><i class="fa fa-lightbulb-o me-2"></i>OTA Room Tips</h5>
-                            <ul class="list-unstyled mb-0" style="font-size:13px;">
-                                <li class="mb-2"><i class="fa fa-check-circle me-2"></i>Use descriptive names — "Deluxe
-                                    Ocean View" not just "Room A"</li>
-                                <li class="mb-2"><i class="fa fa-check-circle me-2"></i>Accurate capacity prevents guest
-                                    complaints</li>
-                                <li class="mb-2"><i class="fa fa-check-circle me-2"></i>List all amenities — guests
-                                    filter by them</li>
-                                <li class="mb-2"><i class="fa fa-check-circle me-2"></i>Weekend rates increase revenue
-                                    on Fri–Sun</li>
-                                <li class="mb-2"><i class="fa fa-check-circle me-2"></i>Upload at least 5 photos per
-                                    room type</li>
-                                <li><i class="fa fa-check-circle me-2"></i>Room size (m²) is required by Booking.com</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header border-0 pb-0">
-                            <h5 class="card-title"><i class="fa fa-info-circle text-info me-2"></i>Required by OTAs</h5>
-                        </div>
-                        <div class="card-body pt-2">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item px-0 d-flex justify-content-between fs-13">Room Type Name<span
-                                        class="badge badge-success light">Required</span></li>
-                                <li class="list-group-item px-0 d-flex justify-content-between fs-13">Bed Type<span
-                                        class="badge badge-success light">Required</span></li>
-                                <li class="list-group-item px-0 d-flex justify-content-between fs-13">Max Occupancy<span
-                                        class="badge badge-success light">Required</span></li>
-                                <li class="list-group-item px-0 d-flex justify-content-between fs-13">Base Rate<span
-                                        class="badge badge-success light">Required</span></li>
-                                <li class="list-group-item px-0 d-flex justify-content-between fs-13">Room Size (m²)<span
-                                        class="badge badge-warning light">Booking.com</span></li>
-                                <li class="list-group-item px-0 d-flex justify-content-between fs-13">Description<span
-                                        class="badge badge-warning light">Recommended</span></li>
-                                <li class="list-group-item px-0 d-flex justify-content-between fs-13">Photos<span
-                                        class="badge badge-warning light">Recommended</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header border-0 pb-0">
-                            <h5 class="card-title"><i class="fa fa-map text-success me-2"></i>Next Steps</h5>
-                        </div>
-                        <div class="card-body pt-2">
-                            <ul class="list-unstyled mb-0 fs-13">
-                                <li class="mb-2 d-flex align-items-start gap-2">
-                                    <span class="badge badge-primary light mt-1">1</span>
-                                    Save this room type
-                                </li>
-                                <li class="mb-2 d-flex align-items-start gap-2">
-                                    <span class="badge badge-primary light mt-1">2</span>
-                                    Go to <a href="channels.html">Channels</a> and connect Booking.com
-                                </li>
-                                <li class="mb-2 d-flex align-items-start gap-2">
-                                    <span class="badge badge-primary light mt-1">3</span>
-                                    Go to <a href="rates.html">Rates &amp; Availability</a> to set prices per channel
-                                </li>
-                                <li class="d-flex align-items-start gap-2">
-                                    <span class="badge badge-primary light mt-1">4</span>
-                                    Start receiving bookings from OTAs
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
+        {{-- Page Header --}}
+        <div class="row page-titles mx-0">
+            <div class="col-sm-6 p-md-0">
+                <div class="welcome-text">
+                    <h4>{{ isset($room) ? 'Edit Room' : 'Add New Room' }}</h4>
+                    <p class="mb-0">{{ isset($room) ? 'Update room details' : 'Add a new room type' }}</p>
                 </div>
             </div>
-
+            <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                <a href="{{ route('rooms') }}" class="btn btn-secondary btn-rounded">
+                    <i class="fa fa-arrow-left me-2"></i> Back to Rooms
+                </a>
+            </div>
         </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            {{ isset($room) ? 'Edit: ' . $room->name : 'Room Details' }}
+                        </h4>
+                    </div>
+                    <div class="card-body">
+
+                        <form method="POST"
+                            action="{{ isset($room)
+                                ? route('rooms.update', $room->id)
+                                : route('rooms.store') }}">
+                            @csrf
+                            @if(isset($room))
+                                @method('PUT')
+                            @endif
+
+                            {{-- SECTION 1: Basic Info --}}
+                            <h5 class="mb-3 text-primary">
+                                <i class="fa fa-info-circle me-2"></i> Basic Information
+                            </h5>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Property <span class="text-danger">*</span></label>
+                                    <select name="property_id" class="form-control" required>
+                                        <option value="">-- Select Property --</option>
+                                        @foreach($properties as $property)
+                                            <option value="{{ $property->id }}"
+                                                {{ old('property_id', $room->property_id ?? '') == $property->id ? 'selected' : '' }}>
+                                                {{ $property->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Room Name <span class="text-danger">*</span></label>
+                                    <input type="text" name="name" class="form-control"
+                                        placeholder="e.g. Deluxe King Room"
+                                        value="{{ old('name', $room->name ?? '') }}" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Category <span class="text-danger">*</span></label>
+                                    <select name="category" class="form-control" required>
+                                        @foreach(['standard','deluxe','suite','villa','dormitory'] as $cat)
+                                            <option value="{{ $cat }}"
+                                                {{ old('category', $room->category ?? '') === $cat ? 'selected' : '' }}>
+                                                {{ ucfirst($cat) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Bed Type <span class="text-danger">*</span></label>
+                                    <select name="bed_type" class="form-control" required>
+                                        @foreach(['single','double','queen','king','twin','bunk'] as $bed)
+                                            <option value="{{ $bed }}"
+                                                {{ old('bed_type', $room->bed_type ?? '') === $bed ? 'selected' : '' }}>
+                                                {{ ucfirst($bed) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">View Type</label>
+                                    <select name="view_type" class="form-control">
+                                        @foreach(['none','city','garden','pool','ocean','mountain'] as $view)
+                                            <option value="{{ $view }}"
+                                                {{ old('view_type', $room->view_type ?? 'none') === $view ? 'selected' : '' }}>
+                                                {{ ucfirst($view) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{-- SECTION 2: Capacity --}}
+                            <h5 class="mb-3 mt-2 text-primary">
+                                <i class="fa fa-users me-2"></i> Capacity
+                            </h5>
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Total Rooms <span class="text-danger">*</span></label>
+                                    <input type="number" name="total_rooms" class="form-control"
+                                        min="1" placeholder="10"
+                                        value="{{ old('total_rooms', $room->total_rooms ?? '') }}" required>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Max Adults <span class="text-danger">*</span></label>
+                                    <input type="number" name="max_adults" class="form-control"
+                                        min="1" placeholder="2"
+                                        value="{{ old('max_adults', $room->max_adults ?? 2) }}" required>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Max Children</label>
+                                    <input type="number" name="max_children" class="form-control"
+                                        min="0" placeholder="1"
+                                        value="{{ old('max_children', $room->max_children ?? 0) }}">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Room Size (m²)</label>
+                                    <input type="number" name="size_sqm" class="form-control"
+                                        step="0.01" placeholder="35"
+                                        value="{{ old('size_sqm', $room->size_sqm ?? '') }}">
+                                </div>
+                            </div>
+
+                            {{-- SECTION 3: Pricing --}}
+                            <h5 class="mb-3 mt-2 text-primary">
+                                <i class="fa fa-money me-2"></i> Pricing
+                            </h5>
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Base Rate (per night) <span class="text-danger">*</span></label>
+                                    <input type="number" name="base_rate" class="form-control"
+                                        step="0.01" min="0" placeholder="150.00"
+                                        value="{{ old('base_rate', $room->base_rate ?? '') }}" required>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Weekend Rate</label>
+                                    <input type="number" name="weekend_rate" class="form-control"
+                                        step="0.01" min="0" placeholder="180.00"
+                                        value="{{ old('weekend_rate', $room->weekend_rate ?? '') }}">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Tax Rate (%)</label>
+                                    <input type="number" name="tax_rate" class="form-control"
+                                        step="0.01" min="0" max="100" placeholder="10"
+                                        value="{{ old('tax_rate', $room->tax_rate ?? 0) }}">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Extra Adult Charge</label>
+                                    <input type="number" name="extra_adult_charge" class="form-control"
+                                        step="0.01" min="0" placeholder="25.00"
+                                        value="{{ old('extra_adult_charge', $room->extra_adult_charge ?? 0) }}">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Extra Child Charge</label>
+                                    <input type="number" name="extra_child_charge" class="form-control"
+                                        step="0.01" min="0" placeholder="15.00"
+                                        value="{{ old('extra_child_charge', $room->extra_child_charge ?? 0) }}">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Min Stay (nights)</label>
+                                    <input type="number" name="min_stay" class="form-control"
+                                        min="1" placeholder="1"
+                                        value="{{ old('min_stay', $room->min_stay ?? 1) }}">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Max Stay (nights)</label>
+                                    <input type="number" name="max_stay" class="form-control"
+                                        min="1" placeholder="30"
+                                        value="{{ old('max_stay', $room->max_stay ?? '') }}">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Status</label>
+                                    <select name="status" class="form-control">
+                                        <option value="active" {{ old('status', $room->status ?? 'active') === 'active' ? 'selected' : '' }}>Active</option>
+                                        <option value="inactive" {{ old('status', $room->status ?? '') === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{-- SECTION 4: Extras --}}
+                            <h5 class="mb-3 mt-2 text-primary">
+                                <i class="fa fa-star me-2"></i> Extras
+                            </h5>
+                            <div class="row mb-3">
+                                <div class="col-md-3 mb-3">
+                                    <div class="form-check mt-4">
+                                        <input class="form-check-input" type="checkbox"
+                                            name="breakfast" value="1" id="breakfast"
+                                            {{ old('breakfast', $room->breakfast ?? false) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="breakfast">
+                                            Breakfast Included
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 mb-3">
+                                    <label class="form-label">Description</label>
+                                    <textarea name="description" class="form-control" rows="3"
+                                        placeholder="Describe this room type...">{{ old('description', $room->description ?? '') }}</textarea>
+                                </div>
+                            </div>
+
+                            {{-- SECTION 5: Amenities --}}
+                            <h5 class="mb-3 text-primary">
+                                <i class="fa fa-list me-2"></i> Room Amenities
+                            </h5>
+                            <div class="row mb-4">
+                                @foreach([
+                                    'wifi'        => 'Free WiFi',
+                                    'ac'          => 'Air Conditioning',
+                                    'tv'          => 'Flat Screen TV',
+                                    'minibar'     => 'Mini Bar',
+                                    'safe'        => 'In-room Safe',
+                                    'bathtub'     => 'Bathtub',
+                                    'shower'      => 'Rain Shower',
+                                    'balcony'     => 'Balcony',
+                                    'kitchenette' => 'Kitchenette',
+                                    'workspace'   => 'Work Desk',
+                                    'coffee'      => 'Coffee Maker',
+                                    'hairdryer'   => 'Hair Dryer',
+                                ] as $value => $label)
+                                <div class="col-md-3 col-6 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox"
+                                            name="amenities[]"
+                                            value="{{ $value }}"
+                                            id="room_amenity_{{ $value }}"
+                                            {{ in_array($value, old('amenities', $room->amenities ?? [])) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="room_amenity_{{ $value }}">
+                                            {{ $label }}
+                                        </label>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+
+                            {{-- Submit --}}
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fa fa-save me-2"></i>
+                                    {{ isset($room) ? 'Update Room' : 'Save Room' }}
+                                </button>
+                                <a href="{{ route('rooms') }}" class="btn btn-secondary btn-lg">
+                                    Cancel
+                                </a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
+</div>
 @endsection
