@@ -3,12 +3,12 @@
         <nav class="navbar navbar-expand">
             <div class="collapse navbar-collapse justify-content-between">
                 <div class="header-left">
-                    <div class="dashboard_bar">
+                    {{-- <div class="dashboard_bar">
                         Dashboard
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="header-right d-flex align-items-center">
-                    <div class="input-group search-area">
+                    {{-- <div class="input-group search-area">
                         <input type="text" class="form-control" placeholder="Search here...">
                         <span class="input-group-text"><a href="javascript:void(0)">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -28,7 +28,7 @@
                                     </defs>
                                 </svg>
                             </a></span>
-                    </div>
+                    </div> --}}
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown notification_dropdown">
                             <a class="nav-link bell dz-theme-mode" href="javascript:void(0);">
