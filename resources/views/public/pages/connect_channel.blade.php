@@ -31,7 +31,7 @@
                     <div class="card-body">
                         <div class="row">
                             @foreach([
-                                ['name' => 'booking_com', 'label' => 'Booking.com',  'logo' => '🔵', 'color' => '#003580'],
+                                ['name' => 'booking_com', 'label' => 'Booking.com',   'logo' => '🔵', 'color' => '#003580'],
                                 ['name' => 'expedia',     'label' => 'Expedia',       'logo' => '🟡', 'color' => '#00355F'],
                                 ['name' => 'airbnb',      'label' => 'Airbnb',        'logo' => '🔴', 'color' => '#FF5A5F'],
                                 ['name' => 'agoda',       'label' => 'Agoda',         'logo' => '🟢', 'color' => '#003B95'],
